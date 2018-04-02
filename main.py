@@ -72,8 +72,7 @@ class Event():
 def start():
     config = Config()
     monitor = Monitor()
-    pmonitor =PlexMonitor(monitor, config)
-    pmonitor.full()
+    pmonitor = PlexMonitor(monitor, config)
     s = Scheduler()
     s.add(Event("Daily Log", 86400, pmonitor.full))
     s.add(Event("Error Log", 300, pmonitor))

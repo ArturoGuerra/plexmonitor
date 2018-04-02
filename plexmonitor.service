@@ -1,0 +1,10 @@
+[Unit]
+Description=Plex Monitoring service
+After=network-online.target
+[Service]
+Type=simple
+ExecStart=/opt/PlexMonitor/main.py
+Restart=on-failure
+TimeoutStopSec=300
+[Install]
+WantedBy=multi-user.target
