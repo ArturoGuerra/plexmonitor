@@ -15,7 +15,7 @@ class Config():
         try:
             with open(configfile, 'r') as f:
                 self.__config = json.load(f)
-        except FileNotFoundError as e:
+        except Exception as e:
             return
         for attr in self.__config:
             setattr(self.__class__, attr, self.__config[attr])
