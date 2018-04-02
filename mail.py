@@ -3,8 +3,11 @@ import boto3
 import time
 
 from botocore.exceptions import ClientError
+from utils import get_logger
 
 client = boto3.client('ses')
+logger = get_logger(__name__)
+
 class Mail():
     first = True
     ctime = time.time()
@@ -35,7 +38,7 @@ class Mail():
 
     def __call__(self):
         if not self.first and (time.time() - self.ctime) < 1800:
-                print("Rate limiting {} Seconds until next message".format(int((time.time() - self.ctime) - 1800)))
+                logger.info("Rate limiting {} Seconds until next message".format(int((time.time() - self.ctime) - 1800)))
                 return
         Mail.ctime = time.time()
         Mail.first = False
@@ -46,7 +49,7 @@ class Mail():
                     Source = self.sender
                     )
         except ClientError as e:
-            print(e.response['Error']['Message'])
+            logger.info(e.response['Error']['Message'])
         else:
-            print(resp['ResponseMetadata']['RequestId'])
+            logger.info(resp['ResponseMetadata']['RequestId'])
 

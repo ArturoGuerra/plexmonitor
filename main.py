@@ -5,10 +5,12 @@ from monitor import Monitor
 from mail import Mail
 from config import Config
 from scheduler import Scheduler
+from utils import get_logger
 
 class PlexMonitor:
-    def __init__(self, monitor, config):
+    def __init__(self, monitor, config, logger):
         self.monitor = monitor
+        self.logger = logger
         self.recipients = config.recipients
         self.sender = config.sender
         self.subject = "Plex Monitor"
@@ -72,7 +74,8 @@ class Event():
 def start():
     config = Config()
     monitor = Monitor()
-    pmonitor = PlexMonitor(monitor, config)
+    logger = get_logger(__name__)
+    pmonitor = PlexMonitor(monitor, config, logger)
     s = Scheduler()
     s.add(Event("Daily Log", 86400, pmonitor.full))
     s.add(Event("Error Log", 300, pmonitor))

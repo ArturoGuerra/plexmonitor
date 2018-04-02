@@ -1,5 +1,8 @@
 import time
 
+from utils import get_logger
+
+logger = get_logger(__name__)
 
 class Scheduler():
     def __init__(self):
@@ -9,10 +12,10 @@ class Scheduler():
         self.events.append(event)
 
     def run(self):
-        print("Starting Event dispatcher..")
+        logger.info("Starting Event dispatcher..")
         while True:
             for event in self.events:
                 if (time.time() - event.ctime) >= event.time:
-                    print("Running: {}".format(event.name))
+                    logger.info("Running: {}".format(event.name))
                     event()
                     event.ctime = time.time()
