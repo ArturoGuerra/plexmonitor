@@ -14,7 +14,8 @@ class Monitor():
                 "couchpotato": "CouchPotato",
                 "nzbget": "NZBGet",
                 "deluged": "Deluge Daemon",
-                "deluge-web": "Deluge Web"
+                "deluge-web": "Deluge Web",
+                "nzbhydra": "Heil Hydra"
                 }
         self.results = list()
 

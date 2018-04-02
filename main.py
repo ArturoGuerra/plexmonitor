@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import time
 
+from sys import argv
 from monitor import Monitor
 from mail import Mail
 from config import Config
@@ -20,12 +21,12 @@ class PlexMonitor:
             return "<html></html>"
 
         def get_content(errors, passed):
-            fstring = "Errored: \n"
+            fstring = "Offline:\n"
             for error in errors:
                 fstring = fstring + "{} - {}\n".format(error['name'], error['status'])
-            fstring = fstring + "\n\nPassed:\n"
+            fstring = fstring + "\n\nRunning:\n"
             if len(errors) == 0:
-                fstring = "Passed:\n"
+                fstring = "Running:\n"
             for item in passed:
                 fstring = fstring + "{} - {}\n".format(item['name'], item['status'])
             return fstring
@@ -76,6 +77,8 @@ def start():
     monitor = Monitor()
     logger = get_logger(__name__)
     pmonitor = PlexMonitor(monitor, config, logger)
+    if (len(argv) > 1) and argv[1] == "--debug":
+        pmonitor.full()
     s = Scheduler()
     s.add(Event("Daily Log", 86400, pmonitor.full))
     s.add(Event("Error Log", 300, pmonitor))
