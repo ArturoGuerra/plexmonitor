@@ -1,7 +1,7 @@
 import sys
 import json
 import getpass
-from os import path
+from os import path, environ
 
 
 #Config File paths
