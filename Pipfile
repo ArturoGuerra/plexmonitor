@@ -1,0 +1,18 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+Flask = "*"
+dbus-python = "*"
+python-systemd-dbus = "*"
+flask = "*"
+"boto3" = "*"
+uwsgi = "*"
+flask-cors = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"

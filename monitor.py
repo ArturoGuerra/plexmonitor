@@ -1,12 +1,11 @@
-from systemd_dbus.manager import Manager
-from systemd_dbus.exceptions import SystemdError
+import subprocess
+
 from utils import get_logger
 
 logger = get_logger(__name__)
 
 class Monitor():
     def __init__(self):
-        self.manager = Manager()
         self.units = {
                 "plexmediaserver": "Plex Server",
                 "plexpy": "PlexPy",
@@ -20,11 +19,14 @@ class Monitor():
         self.results = list()
 
     def parse(self, name, unit_name):
-        try:
-            unit = self.manager.get_unit(unit_name + ".service")
-            status = str(unit.properties.SubState)
-        except SystemdError as e:
-            status = "offline"
+        cmd = f'systemctl status {unit_name}'
+        proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+        stdout = proc.communicate()[0].decode('utf-8').split('\n')
+        status = 'Offline'
+        for line in stdout:
+            if (('Active:' in line) and '(running)' in line):
+                status = 'Running'
+                break
         return {
             "name": name,
             "service": unit_name,
@@ -51,7 +53,7 @@ class Monitor():
         errored = list()
         passed = list()
         for result in self.results:
-            if result['status'] == "running":
+            if result['status'].lower() == "running":
                 passed.append(result)
             else:
                 errored.append(result)

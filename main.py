@@ -57,7 +57,7 @@ class PlexMonitor:
 
     def __call__(self):
         results = self.monitor()
-        if results['status'] == 'failed':
+        if results['status'].lower() == 'failed':
             html, content = self.format(results, 'errors')
             self.send(html, content)
 
@@ -80,7 +80,6 @@ def start():
     if (len(argv) > 1) and argv[1] == "--debug":
         pmonitor.full()
     s = Scheduler()
-    s.add(Event("Daily Log", 86400, pmonitor.full))
     s.add(Event("Error Log", 300, pmonitor))
     s.run()
 
