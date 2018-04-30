@@ -7,10 +7,13 @@ name = "pypi"
 Flask = "*"
 dbus-python = "*"
 python-systemd-dbus = "*"
-flask = "*"
 "boto3" = "*"
-uwsgi = "*"
-flask-cors = "*"
+uWSGI = "*"
+Flask-Cors = "*"
+six = "*"
+python-dotenv = "*"
+python-jose-cryptodome = "*"
+requests = "*"
 
 [dev-packages]
 
